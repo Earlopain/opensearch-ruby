@@ -173,7 +173,7 @@ else
         }
 
         ::Manticore::Client.expects(:new).with(options)
-        transport = Manticore.new :hosts => [ { :host => 'foobar', :port => 1234 } ], :options => options
+        Manticore.new :hosts => [ { :host => 'foobar', :port => 1234 } ], :options => options
       end
 
       should "pass :transport_options to Manticore::Client" do
@@ -182,7 +182,7 @@ else
         }
 
         ::Manticore::Client.expects(:new).with(:potatoes => 1, :ssl => {})
-        transport = Manticore.new :hosts => [ { :host => 'foobar', :port => 1234 } ], :options => options
+        Manticore.new :hosts => [ { :host => 'foobar', :port => 1234 } ], :options => options
       end
     end
 

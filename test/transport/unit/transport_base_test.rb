@@ -60,7 +60,7 @@ class OpenSearch::Transport::Transport::BaseTest < Minitest::Test
 
     should "build connections on initialization" do
       DummyTransport.any_instance.expects(:__build_connections)
-      transport = DummyTransport.new
+      DummyTransport.new
     end
 
     should "have default serializer" do
