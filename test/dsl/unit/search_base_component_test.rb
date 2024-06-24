@@ -47,6 +47,16 @@ module OpenSearch
           include OpenSearch::DSL::Search::BaseCompoundFilterComponent
         end
 
+        class DummyComponentWithOptionMethod
+          include OpenSearch::DSL::Search::BaseComponent
+          option_method :bar
+        end
+
+        class DummyComponentWithCustomOptionMethodBlock
+          include OpenSearch::DSL::Search::BaseComponent
+          option_method :bar, ->(*_args) { @hash = { foo: 'bar' } }
+        end
+
         subject { DummyComponent.new :foo }
 
         should 'have a name' do
@@ -77,11 +87,6 @@ module OpenSearch
         end
 
         should 'have an option method with args' do
-          class DummyComponentWithOptionMethod
-            include OpenSearch::DSL::Search::BaseComponent
-            option_method :bar
-          end
-
           subject = DummyComponentWithOptionMethod.new :foo
           assert_respond_to subject, :bar
 
@@ -90,21 +95,11 @@ module OpenSearch
         end
 
         should 'keep track of option methods' do
-          class DummyComponentWithCustomOptionMethod
-            include OpenSearch::DSL::Search::BaseComponent
-            option_method :foo
-          end
-
-          subject = DummyComponentWithCustomOptionMethod
-          assert_includes subject.option_methods, :foo
+          subject = DummyComponentWithOptionMethod
+          assert_includes subject.option_methods, :bar
         end
 
         should 'have an option method without args' do
-          class DummyComponentWithOptionMethod
-            include OpenSearch::DSL::Search::BaseComponent
-            option_method :bar
-          end
-
           subject = DummyComponentWithOptionMethod.new
           assert_respond_to subject, :bar
 
@@ -113,12 +108,7 @@ module OpenSearch
         end
 
         should 'define a custom option method' do
-          class DummyComponentWithCustomOptionMethod
-            include OpenSearch::DSL::Search::BaseComponent
-            option_method :bar, ->(*_args) { @hash = { foo: 'bar' } }
-          end
-
-          subject = DummyComponentWithCustomOptionMethod.new
+          subject = DummyComponentWithCustomOptionMethodBlock.new
           subject.bar
 
           assert_equal 'bar', subject.instance_variable_get(:@hash)[:foo]
@@ -158,16 +148,11 @@ module OpenSearch
           end
 
           should 'build the hash with the option method' do
-            class DummyComponentWithOptionMethod
-              include OpenSearch::DSL::Search::BaseComponent
-              option_method :foo
-            end
-
             subject = DummyComponentWithOptionMethod.new do
-              foo 'bar'
+              bar 'foo'
             end
 
-            assert_equal({ dummy_component_with_option_method: { foo: 'bar' } }, subject.to_hash)
+            assert_equal({ dummy_component_with_option_method: { bar: 'foo' } }, subject.to_hash)
           end
 
           should 'build the hash with the passed args' do
@@ -177,11 +162,6 @@ module OpenSearch
           end
 
           should 'merge the top-level options to the hash' do
-            class DummyComponentWithOptionMethod
-              include OpenSearch::DSL::Search::BaseComponent
-              option_method :bar
-            end
-
             subject = DummyComponentWithOptionMethod.new :foo, xoo: 'X' do
               bar 'B'
             end
