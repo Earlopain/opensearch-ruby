@@ -57,11 +57,9 @@ module OpenSearch
         end
 
         should 'define the value with DSL methods' do
-          assert_nothing_raised do
-            subject.terms field: 'foo'
-            assert_instance_of Hash, subject.to_hash
-            assert_equal({ terms: { field: 'foo' } }, subject.to_hash)
-          end
+          subject.terms field: 'foo'
+          assert_instance_of Hash, subject.to_hash
+          assert_equal({ terms: { field: 'foo' } }, subject.to_hash)
         end
 
         should 'raise an exception for unknown DSL method' do

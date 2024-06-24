@@ -52,20 +52,12 @@ require 'ansi'
 
 module OpenSearch
   module Test
-    module Assertions
-      def assert_nothing_raised(*)
-        yield
-      end
-    end
-
     class UnitTestCase < ::Minitest::Test
-      include Assertions
       alias assert_not_nil refute_nil
       alias assert_raise assert_raises
     end
 
     class IntegrationTestCase < ::Minitest::Test
-      include Assertions
       alias assert_not_nil refute_nil
       alias assert_raise assert_raises
 

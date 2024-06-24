@@ -344,10 +344,8 @@ class OpenSearch::Transport::Transport::BaseTest < Minitest::Test
             then.raises(Errno::ECONNREFUSED).
             then.returns(stub_everything :failures => 1)
 
-      assert_nothing_raised do
-        @transport.perform_request('GET', '/', &@block)
-        assert_equal 4, @transport.counter
-      end
+      @transport.perform_request('GET', '/', &@block)
+      assert_equal 4, @transport.counter
     end
 
     should "raise an error after max tries" do
@@ -558,9 +556,7 @@ class OpenSearch::Transport::Transport::BaseTest < Minitest::Test
     should "log error and continue when timing out while sniffing hosts" do
       @transport.sniffer.expects(:hosts).raises(OpenSearch::Transport::Transport::SnifferTimeoutError)
       @transport.logger.expects(:error)
-      assert_nothing_raised do
-        @transport.reload_connections!
-      end
+      @transport.reload_connections!
     end
 
     should "keep existing connections" do

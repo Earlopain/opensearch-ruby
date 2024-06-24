@@ -71,16 +71,6 @@ end
 
 module Minitest
   class Test
-    def assert_nothing_raised(*args)
-      begin
-        line = __LINE__
-        yield
-      rescue RuntimeError => e
-        raise MiniTest::Assertion, "Exception raised:\n<#{e.class}>", e.backtrace
-      end
-      true
-    end
-
     def assert_not_nil(object, msg=nil)
       msg = message(msg) { "<#{object.inspect}> expected to not be nil" }
       assert !object.nil?, msg

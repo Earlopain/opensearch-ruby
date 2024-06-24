@@ -57,22 +57,18 @@ module OpenSearch
         end
 
         should 'define the value with filter methods' do
-          assert_nothing_raised do
-            subject.term foo: 'bar'
-            assert_instance_of Hash, subject.to_hash
-            assert_equal({ term: { foo: 'bar' } }, subject.to_hash)
-          end
+          subject.term foo: 'bar'
+          assert_instance_of Hash, subject.to_hash
+          assert_equal({ term: { foo: 'bar' } }, subject.to_hash)
         end
 
         should 'redefine the value with filter methods' do
-          assert_nothing_raised do
-            subject.term foo: 'bar'
-            subject.term foo: 'bam'
-            subject.to_hash
-            subject.to_hash
-            assert_instance_of Hash, subject.to_hash
-            assert_equal({ term: { foo: 'bam' } }, subject.to_hash)
-          end
+          subject.term foo: 'bar'
+          subject.term foo: 'bam'
+          subject.to_hash
+          subject.to_hash
+          assert_instance_of Hash, subject.to_hash
+          assert_equal({ term: { foo: 'bam' } }, subject.to_hash)
         end
 
         should 'raise an exception for unknown filter' do

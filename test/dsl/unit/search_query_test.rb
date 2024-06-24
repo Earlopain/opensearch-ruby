@@ -57,26 +57,22 @@ module OpenSearch
         end
 
         should 'define the value with query methods' do
-          assert_nothing_raised do
-            subject.match foo: 'bar'
-            assert_instance_of Hash, subject.to_hash
-            assert_equal({ match: { foo: 'bar' } }, subject.to_hash)
-          end
+          subject.match foo: 'bar'
+          assert_instance_of Hash, subject.to_hash
+          assert_equal({ match: { foo: 'bar' } }, subject.to_hash)
         end
 
         should 'redefine the value with query methods' do
-          assert_nothing_raised do
-            subject.match foo: 'bar'
-            subject.match foo: 'bam'
-            subject.to_hash
-            subject.to_hash
-            assert_instance_of Hash, subject.to_hash
-            assert_equal({ match: { foo: 'bam' } }, subject.to_hash)
-          end
+          subject.match foo: 'bar'
+          subject.match foo: 'bam'
+          subject.to_hash
+          subject.to_hash
+          assert_instance_of Hash, subject.to_hash
+          assert_equal({ match: { foo: 'bam' } }, subject.to_hash)
         end
 
         should 'have the query methods' do
-          assert_nothing_raised { subject.match foo: 'bar' }
+          assert_respond_to subject, :match
         end
 
         should 'raise an exception for unknown query' do
